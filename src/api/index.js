@@ -1,6 +1,7 @@
 import axios from 'axios'
-import VueRouter from 'vue-router'
-// import store from '@/store/index.js'
+import store from '@/store/index.js'
+// 引入动画
+import {showLoading, hideLoading} from '../utils/loading.js'
 
 const instance = axios.create({
   baseURL: 'http://123.103.86.52/ms-api',
@@ -9,48 +10,55 @@ const instance = axios.create({
 
 // 请求拦截
 instance.interceptors.request.use(config => {
-  console.log(this.$store)
-  const token = this.$store.state.auth.token || ''
-  console.log(token)
-  if(token && !config.noToken) {
+  showLoading()
+  const token = store.state.auth.token || ''
+  if (token && !config.headers.token) {
     config.headers.token = token
   }
   return config
 }, err => {
-  Promise.reject(err)
+  hideLoading()
+  return Promise.reject(err)
 })
 
 // 响应拦截
 instance.interceptors.response.use(response => {
+  hideLoading()
   return response
 }, error => {
-  const errRes = error.response
-  VueRouter.push('/login')
-  throw new Error(errRes.data.message)
+  hideLoading()
+  console.log(error)
+  // const errRes = error.response
+  // VueRouter.push('/login')
+  // throw new Error(errRes.data.message)
 })
 
 const myGet = (url, params) => {
   return new Promise((resolve, reject) => {
-    instance.get(url, {params}).then(res => {
-      if(res.code === 1000000) {
+    instance.get(url, { params }).then(res => {
+      if (res.data.code === 1000000) {
         resolve(res.data)
+      }else {
+        reject(res.data)
       }
+    }).catch(err => {
+      reject(err)
     })
-  }).catch(err => {
-    reject(err.data)
   })
 }
 
 const myPost = (url, params) => {
   return new Promise((resolve, reject) => {
     instance.post(url, params).then(res => {
-      if(res.code === 1000000) {
+      if (res.data.code === 1000000) {
         resolve(res.data)
+      }else {
+        reject(res.data)
       }
+    }).catch(err => {
+      reject(err)
     })
-  }).catch(err => {
-    reject(err.data)
   })
 }
 
-export {myGet, myPost}
+export { myGet, myPost }

@@ -1,4 +1,5 @@
 const Login = () => import('../page/login/login.vue')
+const Home = () => import('../page/home/home.vue')
 
 const routes = [
   {
@@ -9,6 +10,11 @@ const routes = [
     path: '/login',
     name: 'login',
     component: Login,
+  },
+  {
+    path: '/home',
+    name: 'home',
+    component: Home
   }
 ]
 

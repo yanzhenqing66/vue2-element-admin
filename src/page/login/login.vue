@@ -2,25 +2,70 @@
   <div class="login-wrap">
     <div class="login-content">
       <div class="content-header">
-        <h1>题库后台管理系统</h1>
+        <h1>后台管理系统</h1>
       </div>
       <div class="content-body">
-
+        <el-form :model="form" :rules="rules" ref="form" label-width="50px" class="form">
+          <el-form-item label="账号" prop="username" style="width: 350px">
+            <el-input v-model="form.username" placeholder="请输入账号"></el-input>
+          </el-form-item>
+          <el-form-item label="密码" prop="password" style="width: 350px">
+            <el-input v-model="form.password" type="password" placeholder="请输入密码"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" style="width: 250px" @click="handleLogin">登录</el-button>
+          </el-form-item>
+        </el-form>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import {login} from '@/api/api.js'
+import {mapMutations} from 'vuex'
 export default {
+  name: 'login',
+  data() {
+    return {
+      form: {
+        username: '',
+        password: ''
+      },
+      rules: {
+        username: [{required: true, message: '请输入账号', trigger: 'blur'}],
+        password: [{required: true, message: '请输入密码', trigger: 'blur'}]
+      }
+    }
+  },
 
+  methods: {
+    handleLogin() {
+      this.$refs.form.validate(valid => {
+        if(valid) {
+          const formdata = new FormData()
+          Object.keys(this.form).forEach(item => {
+            formdata.append(item, this.form[item])
+          })
+          login(formdata).then(res => {
+            this.setToken(res.data.token)
+            this.$router.push('/home')
+          }).catch(err => {
+            this.$message.error(err.message)
+          })
+        }
+      })
+    },
+
+    ...mapMutations('auth', ['setToken'])
+  }
 }
 </script>
 
 <style lang="less" scoped>
   .login-wrap {
-    // width: 100%;
     height: 100vh;
+    min-width: 800px;
     background: url(http://tkproc.huatu.com/mk/static/img/login_bg.bcc2be4.png) no-repeat;
     background-size: 100% 100%;
     position: relative;
@@ -32,7 +77,8 @@ export default {
       transform: translate(-50%, -50%);
       width: 530px;
       height: 500px;
-      // border: 1px solid;
+      background-color: #fff;
+      border-radius: 10px;
 
       .content-header {
         height: 200px;
@@ -40,8 +86,8 @@ export default {
         background-size: 100% 100%;
 
         h1 {
-          font-size: 50px;
-          font-weight: 600;
+          font-size: 45px;
+          font-weight: 500;
           color: #fff;
           text-align: center;
           line-height: 200px;
@@ -49,7 +95,15 @@ export default {
       }
 
       .content-body {
+        height: 300px;
+        position: relative;
 
+        .form {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+        }
       }
     }
   }

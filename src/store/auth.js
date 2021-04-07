@@ -1,9 +1,16 @@
-import util from '../utils/util'
+import util from '../utils/cookieUtil'
 
 const store = {
+  namespaced: true,
   state: {
     token: util.getCookie('token'),
-    num: '123'
+  },
+  
+  mutations: {
+    setToken(state, token) {
+      util.setCookie('token', token)
+      state.token = token
+    }
   }
 }
 

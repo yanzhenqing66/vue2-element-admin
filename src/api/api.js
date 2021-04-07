@@ -1,3 +1,3 @@
-import {myGet, myPost} from './index'
+import {myGet, myPost} from './index.js'
 
-export const logon = params => myPost('/auth/login', params)
+export const login = params => myPost('/auth/login', params)
