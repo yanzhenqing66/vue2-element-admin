@@ -7,7 +7,7 @@ const Util = {}
 Util.getCookie = name => {
   let arr,
     reg = new RegExp('(^|)' + name + '=([^;]*)(;|$)')
-  if(arr = document.cookie.match(reg)) return arr[2]
+  if (arr = document.cookie.match(reg)) return arr[2]
   else return null
 }
 
