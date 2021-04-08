@@ -7,13 +7,22 @@
       <div class="content-body">
         <el-form :model="form" :rules="rules" ref="form" label-width="50px" class="form">
           <el-form-item label="账号" prop="username" style="width: 350px">
-            <el-input v-model="form.username" placeholder="请输入账号"></el-input>
+            <el-input 
+              v-model="form.username" 
+              placeholder="请输入账号"></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="password" style="width: 350px">
-            <el-input v-model="form.password" type="password" placeholder="请输入密码"></el-input>
+            <el-input 
+              v-model="form.password" 
+              type="password" 
+              placeholder="请输入密码" 
+              @keyup.enter.native="handleLogin"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" style="width: 250px" @click="handleLogin">登录</el-button>
+            <el-button 
+              type="primary" 
+              style="width: 250px" 
+              @click="handleLogin">登录</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -23,7 +32,7 @@
 
 <script>
 import {login} from '@/api/api.js'
-import {mapMutations} from 'vuex'
+import {mapMutations, mapActions} from 'vuex'
 export default {
   name: 'login',
   data() {
@@ -50,14 +59,17 @@ export default {
           login(formdata).then(res => {
             this.setToken(res.data.token)
             this.$router.push('/home')
-          }).catch(err => {
+            this.getAuthInfo()
+          })
+          .catch(err => {
             this.$message.error(err.message)
           })
         }
       })
     },
 
-    ...mapMutations('auth', ['setToken'])
+    ...mapMutations('auth', ['setToken']),
+    ...mapActions('auth', ['getAuthInfo'])
   }
 }
 </script>
