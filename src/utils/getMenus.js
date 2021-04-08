@@ -19,7 +19,6 @@ Util.showThisMenuEle = (item, accessMap) => {
 Util.getMenuList = function getMenuListByRoutes(routes, accessMap) {
   let res = []
   routes.forEach(item => {
-    console.log(item)
     // meta未设置或meta.hideInMenu为false
     if (!item.meta || (item.meta && !item.meta.hideInMenu)) {
       let obj = {
