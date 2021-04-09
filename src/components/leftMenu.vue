@@ -49,6 +49,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  .el-menu-vertical-demo {
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 10%);
+  }
+
   .el-menu-vertical-demo:not(.el-menu--collapse) {
     min-height: 700px;
   }
