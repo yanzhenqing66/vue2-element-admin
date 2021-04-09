@@ -2,7 +2,11 @@
   <div class="vmenu">
     <el-menu 
       :default-active="defaultActive"
-      background-color="#ffffff">
+      class="el-menu-vertical-demo"
+      background-color="#F8F9FB"
+      text-color="#333"
+      active-text-color="#1856FF"
+      router>
       <template v-for="(item, index) in menuList">
         <el-submenu 
           :index="String(1 + index)"
@@ -38,15 +42,14 @@ export default {
   computed: {
     ...mapGetters('auth', ['menuList']),
     defaultActive() {
-      return this.$route.name
+      return this.$route.path
     }
   },
-
-  mounted() {
-    console.log(this.menuList)
-  }
 };
 </script>
 
-<style>
+<style lang="less" scoped>
+  .el-menu-vertical-demo:not(.el-menu--collapse) {
+    min-height: 700px;
+  }
 </style>

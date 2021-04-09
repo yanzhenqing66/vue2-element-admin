@@ -16,7 +16,7 @@ const store = {
   },
 
   getters: {
-    menuList: state => menuUtil.getMenuList(routes, state.menus)
+    menuList: state => menuUtil.getMenuList(routes, state.menus),
   },
 
   mutations: {
