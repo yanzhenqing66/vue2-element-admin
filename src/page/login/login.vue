@@ -59,7 +59,7 @@ export default {
           })
           login(formdata).then(res => {
             this.setToken(res.data.token)
-            this.$router.push('/home')
+            this.$router.replace('/home')
             this.getAuthInfo()
           })
           .catch(err => {

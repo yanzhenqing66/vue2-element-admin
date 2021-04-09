@@ -11,22 +11,20 @@ const router = new VueRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
+  const token = store.state.auth.token
   if (to.name === 'login') {
     next()
     return
-  }
-  const token = store.state.auth.token
+  } 
   if (!token) {
-    next({ name: 'login' })
-  } else {
-    if (!store.state.auth.menus) {
-      try {
-        await store.dispatch('auth/getAuthInfo')
-        next()
-      } catch (e) {
-        Message.warning(e.message)
-        next({ name: 'login' })
-      }
+    next('/login')
+    Message.warning('没有权限，请重新登录！')
+  }else {
+    if(!store.state.auth.username) {
+      await store.dispatch('auth/getAuthInfo')
+      next()
+    }else {
+      next()
     }
   }
 })
