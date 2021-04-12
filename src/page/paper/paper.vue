@@ -1,20 +1,53 @@
 <template>
-  <div>
-    paper
+  <div class="paper">
+    <paper-table :tableData="tableData"></paper-table>
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="page"
+      :page-sizes="pageSizes"
+      :page-size="pageSize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="total">
+    </el-pagination>
   </div>
 </template>
 
 <script>
+import {getPaperList} from '@/api/api.js'
+import PaperTable from './components/paperTable.vue'
+import {page} from '@/common/mixins.js'
 export default {
   name: 'paper',
+
+  components: {
+    PaperTable
+  },
+
+  mixins: [page],
+
   data() {
     return{
-      
+      tableData: []
+    }
+  },
+
+  created() {
+    this.getList()
+  },
+
+  methods: {
+    getList() {
+      Object.assign(this.searchParams, {page: this.page, size: this.pageSize})
+      getPaperList(this.searchParams).then(res => {
+        this.tableData = res.data.list
+        this.total = res.data.total
+      })
     }
   }
 }
 </script>
 
-<style>
+<style lang="less" scoped>
 
-</style>
+</style> 

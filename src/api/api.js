@@ -7,6 +7,11 @@ import {myGet, myPost} from './index.js'
  */
 // 登录
 export const login = params => myPost('/auth/login', params)
-
 // 获取权限
 export const getAuthInfo = params => myGet(`/auth/info?id=${params}`)
+
+/**
+ * paper
+ */
+// 列表 搜索
+export const getPaperList = params => myGet('/paper/list', params)
