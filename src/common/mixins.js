@@ -10,7 +10,6 @@
 </el-pagination>
 */
 
-
 export const page = {
   data() {
     return {
