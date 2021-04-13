@@ -39,6 +39,8 @@ export const page = {
 
     search(params) {
       this.searchParams = Object.freeze(params)
+      this.page = 1
+      this.getList()
     }
   }
 }

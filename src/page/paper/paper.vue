@@ -1,5 +1,6 @@
 <template>
   <div class="paper">
+    <paper-search @search="search"></paper-search>
     <paper-table :tableData="tableData"></paper-table>
     <el-pagination
       @size-change="handleSizeChange"
@@ -17,11 +18,13 @@
 import {getPaperList} from '@/api/api.js'
 import PaperTable from './components/paperTable.vue'
 import {page} from '@/common/mixins.js'
+import PaperSearch from './components/paperSearch.vue'
 export default {
   name: 'paper',
 
   components: {
-    PaperTable
+    PaperTable,
+    PaperSearch
   },
 
   mixins: [page],
@@ -49,5 +52,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
+  .paper {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+  }
 </style> 
